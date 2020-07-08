@@ -1,5 +1,5 @@
 
-
+const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -12,11 +12,22 @@ const blogContents = "";
 const journal = [];
 
 const app = express();
+const Schema = mongoose.Schema;
+const atlasURL = 'mongodb+srv://test:test@dailyjournal.nr5qe.azure.mongodb.net/posts?retryWrites=true&w=majority';
 
 app.set('view engine', 'ejs');
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+
+mongoose.connect(atlasURL, {useNewUrlParser: true, useUnifiedTopology: true});
+
+
+const postSchema = new Schema ({
+  title: String,
+  post: String
+});
+
+const Post = mongoose.model("Post", postSchema);
 
 app.get("/", function(req,res){
   res.render("home",{
@@ -59,10 +70,10 @@ app.get("/compose", function(req,res){
 });
 
 app.post("/compose",function(req,res){
-  const blogInfo = {
+  const blogInfo = new Post({
     titles: req.body.title,
     posts: req.body.post
-  }
+  })
   journal.push(blogInfo)
   res.redirect("/")
 });
