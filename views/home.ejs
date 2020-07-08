@@ -5,9 +5,9 @@
 <br>
 
 <% pContent.forEach(function(title){ %>
-  <h1><%=title.titles%></h1>
-  <p><%=title.posts.substr(0,100) + " ..."%>
-    <a href="/posts/<%=title.titles%>">Read More</a></p>
+  <h1><%=title.title%></h1>
+  <p><%=title.post.substr(0,100) + " ..."%>
+    <a href="/posts/<%=title.title%>">Read More</a></p>
 <%});%>
 
 
